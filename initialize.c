@@ -1,6 +1,9 @@
+#include "initialize.h"
+#include <stdlib.h>
+
 int **initialize_distances(int size)
 {
-    int **distances = malloc(sizeof(int *) * size);
+    int **distances = (int **)malloc(sizeof(int *) * size);
     for (int i = 0; i < size; i++)
     {
         distances[i] = malloc(sizeof(int) * size);
@@ -22,9 +25,9 @@ int **initialize_distances(int size)
     return distances;
 }
 
-int **intialize_pheromones(int size)
+int **initialize_pheromones(int size)
 {
-    int **pheromones = malloc(sizeof(int *) * size);
+    int **pheromones = (int **)malloc(sizeof(int *) * size);
     for (int i = 0; i < size; i++)
     {
         pheromones[i] = malloc(sizeof(int) * size);
