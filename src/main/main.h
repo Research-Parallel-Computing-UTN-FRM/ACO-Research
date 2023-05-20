@@ -1,0 +1,1 @@
+#define EVAPORTAION_RATE 0.5
