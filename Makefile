@@ -70,7 +70,7 @@ endef
 
 .PHONY: all clean directories 
 
-all: directories $(TARGET)
+all: clean directories $(TARGET) 
 
 $(TARGET): $(OBJS)
 	$(HIDE)echo Linking $@
