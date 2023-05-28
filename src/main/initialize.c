@@ -1,5 +1,9 @@
 #include "initialize.h"
 #include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+#include "system.h"
+#include "util.h"
 
 int **initialize_distances(int size)
 {
@@ -9,12 +13,13 @@ int **initialize_distances(int size)
         distances[i] = malloc(sizeof(int) * size);
     }
 
+    srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
             // Generate a symmetric matrix
-            distances[i][j] = rand() % 500;
+            distances[i][j] = random_int(500);
             distances[j][i] = distances[i][j];
         }
     }
@@ -40,4 +45,34 @@ int **initialize_pheromones(int size)
         }
     }
     return pheromones;
+}
+
+int **initialize_paths(int rows, int columns)
+{
+    int **tabus = (int **)malloc(sizeof(int *) * rows);
+    for (int i = 0; i < rows; i++)
+    {
+        tabus[i] = malloc(sizeof(int) * columns);
+    }
+
+    // Set an initial node for every ant
+    srand(time(NULL)); // Initialization, should only be called once.
+    for (int i = 0; i < rows; i++)
+    {
+        int r = random_int(columns);
+        tabus[i][0] = r;
+    }
+
+    return tabus;
+}
+
+int *initialize_cities_list(int n_cities)
+{
+
+    int *cities = (int *)malloc(sizeof(int) * n_cities);
+    for (int i = 0; i < n_cities; i++)
+    {
+        cities[i] = i;
+    }
+    return cities;
 }

@@ -36,6 +36,11 @@ DEPS = $(OBJS:.o=.d)
 # Name the compiler
 CC = gcc
 
+# Libraries to link
+LIBRARIES = -lm
+
+# Compile flags
+
 # OS specific part
 ifeq ($(OS),Windows_NT)
     RM = del /F /Q 
@@ -74,7 +79,7 @@ all: clean directories $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(HIDE)echo Linking $@
-	$(HIDE)$(CC) $(OBJS) -o $(TARGET)
+	$(HIDE)$(CC) $(OBJS) -o $(TARGET) $(LIBRARIES)
 
 # Include dependencies
 -include $(DEPS)
