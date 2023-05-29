@@ -70,18 +70,6 @@ void update_pheromone(ant_system *system)
     }
 }
 
-// current -> The index of the current city
-// target -> The index of the target city
-double city_probability(ant_system *s, int current, int target)
-{
-    int distance = s->cities_distances[current][target];
-    int pheromone = s->pheromones[current][target];
-
-    float inverse_distance = 1.0f / distance;
-    double probability = pow(pheromone, s->alpha) * pow(inverse_distance, s->beta);
-    return probability;
-}
-
 int *visited_cities(ant_system *s, int ant_number)
 {
     return s->list_tabu_list[ant_number];
@@ -118,38 +106,45 @@ int current_city(ant_system *s, int ant_number, int iter)
 }
 
 // Returns the number of the next city to move
-int next_city(ant_system *s, int ant_number, int iter)
+int next_city(ant_system *as, int ant_number, int iter)
 {
     int current, next_idx, next;
     double *probabilities;
-    Array *not_visited;
+    Array *unvisited_cities;
 
-    not_visited = not_visited_cities(s, ant_number);
-    probabilities = (double *)malloc(sizeof(int) * not_visited->size);
+    current = current_city(as, ant_number, iter);
+    unvisited_cities = not_visited_cities(as, ant_number);
+    probabilities = (double *)malloc(sizeof(int) * unvisited_cities->size);
 
-    for (int i = 0; i < not_visited->size; i++)
+    // roulette wheel selection:
+    int distance;
+    double inverse_distance;
+    int pheromone;
+    double numerator;
+    double denominator = 0;
+
+    for (int i = 0; i < unvisited_cities->size; i++)
     {
-        current = current_city(s, ant_number, iter);
-        probabilities[i] = city_probability(s, current, not_visited->array[i]);
+        distance = as->cities_distances[current][unvisited_cities->array[i]];
+        inverse_distance = 1.0f / distance;
+        pheromone = as->pheromones[current][unvisited_cities->array[i]];
+        numerator = pow(pheromone, as->alpha) * pow(inverse_distance, as->beta);
+        denominator += numerator;
+        probabilities[i] = numerator;
     }
-
-    printf("Probabilities: \n");
-    for (int i = 0; i < not_visited->size; i++)
+    for (int i = 0; i < unvisited_cities->size; i++)
     {
-        printf("City:%d P:%f\n", not_visited->array[i], probabilities[i]);
+        probabilities[i] /= denominator;
     }
-    // Pick based on the discrete distribution stored inside probabilities
-    next_idx = random_from_discrete_distribution(probabilities, not_visited->size);
-    if (next_idx == -1)
-        return -1;
-    next = not_visited->array[next_idx];
-
-    freeArray(not_visited);
-    free(probabilities);
-
-    return next;
+    printf("\n\nProbabilities: \n");
+    for (int i = 0; i < unvisited_cities->size; i++)
+    {
+        printf("City:%d P:%f\n", unvisited_cities->array[i], probabilities[i]);
+    }
+    int idx = random_from_discrete_distribution(probabilities, unvisited_cities->size);
+    printf("The selected city is %d\n", unvisited_cities->array[idx]);
+    return unvisited_cities->array[idx];
 }
-
 // iter -> The movement number.
 // i.e The first time the ant moves (iter = 1),
 // will set tabu_list[1] (0 is already defined on initialization) when moves
