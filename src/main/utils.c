@@ -15,6 +15,18 @@ void print_int_matrix(int **matrix, int rows, int columns)
         printf("\n");
     }
 }
+void print_double_matrix(double **matrix, int rows, int columns)
+{
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            printf("%f ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 void print_int_array(int *array, int columns)
 {
@@ -51,12 +63,17 @@ void print_system(ant_system *system)
     print_int_matrix(system->list_tabu_list, system->n_ants, system->n_cities);
 
     printf("Pheromones: \n");
-    print_int_matrix(system->pheromones, system->n_cities, system->n_cities);
+    print_double_matrix(system->pheromones, system->n_cities, system->n_cities);
     printf("\n");
 
     printf("Distances: \n");
     print_int_matrix(system->cities_distances, system->n_cities, system->n_cities);
     printf("\n");
+
+    printf("Solution: \n");
+    printf("COST: %d\n", system->best_solution_cost);
+    printf("PATH: ");
+    print_int_array(system->best_solution, system->n_cities);
 
     printf("--------------------------- \n");
 }

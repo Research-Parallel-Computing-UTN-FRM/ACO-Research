@@ -30,18 +30,18 @@ int **initialize_distances(int size)
     return distances;
 }
 
-int **initialize_pheromones(int size)
+double **initialize_pheromones(int size)
 {
-    int **pheromones = (int **)malloc(sizeof(int *) * size);
+    double **pheromones = (double **)malloc(sizeof(double *) * size);
     for (int i = 0; i < size; i++)
     {
-        pheromones[i] = malloc(sizeof(int) * size);
+        pheromones[i] = malloc(sizeof(double) * size);
     }
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            pheromones[i][j] = 1;
+            pheromones[i][j] = 1.0f;
         }
     }
     return pheromones;

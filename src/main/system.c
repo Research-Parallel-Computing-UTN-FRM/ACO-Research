@@ -1,6 +1,8 @@
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <limits.h>
 
 #include "initialize.h"
 #include "system.h"
@@ -26,11 +28,11 @@ ant_system *malloc_system(int n_cities, int n_ants)
 
     // Malloc n_cities x n_cities matrix
     system->cities_distances = (int **)malloc(sizeof(int *) * n_cities);
-    system->pheromones = (int **)malloc(sizeof(int *) * n_cities);
+    system->pheromones = (double **)malloc(sizeof(double *) * n_cities);
     for (int i = 0; i < n_cities; i++)
     {
         system->cities_distances[i] = (int *)malloc(sizeof(int) * n_cities);
-        system->pheromones[i] = (int *)malloc(sizeof(int) * n_cities);
+        system->pheromones[i] = (double *)malloc(sizeof(double) * n_cities);
     }
 
     return system;
@@ -44,21 +46,28 @@ ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float 
     if (system == NULL)
         return NULL;
 
+    // Constants for the system
     system->n_cities = n_cities;
     system->n_ants = n_ants;
     system->alpha = alpha;
     system->beta = beta;
     system->evaporation_rate = evaporation_rate;
+    // All the arrays and matrix
     system->cities = initialize_cities_list(system->n_cities);
     system->cities_distances = initialize_distances(n_cities);
     system->pheromones = initialize_pheromones(n_cities);
     system->list_tabu_list = initialize_paths(n_ants, n_cities);
 
+    // Solutions
+    // Best solution path is not initialized, because the pointer is set after the first cycle
+    system->best_solution_cost = INT_MAX;
+    system->best_solution = (int *)malloc(sizeof(int) * n_cities);
+
     return system;
 }
 
 // Increments pheromones of the best solution by 1
-void update_pheromone(ant_system *system)
+void increment_pheromones(ant_system *system)
 {
     int limit = system->n_cities;
     for (int i = 0; i < limit; i++)
@@ -148,4 +157,68 @@ int next_city(ant_system *as, int ant_number, int iter)
 void move_to_city(ant_system *s, int ant, int iter, int city)
 {
     s->list_tabu_list[ant][iter] = city;
+}
+
+// Returns the sum for the path, based on the distances defined in the system
+int path_cost(ant_system *s, int path_idx)
+{
+    int *path, current, next, sum = 0;
+
+    path = s->list_tabu_list[path_idx];
+
+    for (int i = 0; i < (s->n_cities - 1); i++)
+    {
+        current = path[i];
+        next = path[i + 1];
+        sum += s->cities_distances[current][next];
+    }
+    return sum;
+}
+
+int best_path_idx(ant_system *s)
+{
+
+    int best_aux_path_idx, best_aux_cost = INT_MAX, aux_cost = 0;
+
+    for (int i = 0; i < s->n_ants; i++)
+    {
+
+        aux_cost = path_cost(s, i);
+        if (aux_cost < best_aux_cost)
+        {
+            best_aux_cost = aux_cost;
+            best_aux_path_idx = i;
+        }
+    }
+
+    return best_aux_path_idx;
+}
+
+void best_solution(ant_system *s)
+{
+    /*Note for the future: Im not sure what happens */
+
+    int best_idx;
+
+    best_idx = best_path_idx(s);
+
+    // Note: Im not really sure why the size for the copy is this, but it works
+    memcpy(s->best_solution, s->list_tabu_list[best_idx], sizeof(s->best_solution[0]) * s->n_cities);
+
+    // Cost calculation
+    s->best_solution_cost = path_cost(s, best_idx);
+}
+
+void update_pheromones(ant_system *s)
+{
+    for (int i = 0; i < s->n_cities; i++)
+    {
+        for (int j = 0; j < s->n_cities; j++)
+        {
+            // Evaporation
+            s->pheromones[i][j] *= 1 - s->evaporation_rate;
+            // Reinforcement
+            s->pheromones[i][j] += 1 / s->best_solution_cost;
+        }
+    }
 }

@@ -6,12 +6,12 @@
 - Calcula distribucion de prob par alas ciudades
 - Se puede marcar como que se movio a una ciudad
 - Calculo proxima ciudad
+- Hacer un ciclo
 
 ## Hacer
 
-- Mover un ciclo
-- Ver refuerzo de pheromones
 - Calculo de path mas corto
+- Ver refuerzo de pheromones
 - Ensamblar
 
 # Paralela

@@ -28,6 +28,8 @@ int main()
         }
     }
 
+    best_solution(s);
+
     print_system(s);
 
     free(s);
