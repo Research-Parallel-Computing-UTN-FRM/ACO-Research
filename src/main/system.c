@@ -4,7 +4,7 @@
 
 #include "initialize.h"
 #include "system.h"
-#include "util.h"
+#include "utils.h"
 
 ant_system *malloc_system(int n_cities, int n_ants)
 {

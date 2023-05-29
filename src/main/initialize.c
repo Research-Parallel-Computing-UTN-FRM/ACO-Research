@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "system.h"
-#include "util.h"
+#include "utils.h"
 
 int **initialize_distances(int size)
 {
