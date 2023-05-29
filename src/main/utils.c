@@ -47,8 +47,8 @@ void print_system(ant_system *system)
 
     // Printing the list of tabu list makes the log unredeable
     // Uncomment if its necessary for debugging
-    // printf("Visited cities: ");
-    // print_int_matrix(system->list_tabu_list, system->n_ants, system->n_cities);
+    printf("Visited cities: \n");
+    print_int_matrix(system->list_tabu_list, system->n_ants, system->n_cities);
 
     printf("Pheromones: \n");
     print_int_matrix(system->pheromones, system->n_cities, system->n_cities);

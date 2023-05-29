@@ -111,17 +111,13 @@ int next_city(ant_system *as, int ant_number, int iter)
     int current, next_idx, next;
     double *probabilities;
     Array *unvisited_cities;
+    // roulette wheel selection:
+    int distance, pheromone;
+    double inverse_distance, numerator, denominator = 0;
 
     current = current_city(as, ant_number, iter);
     unvisited_cities = not_visited_cities(as, ant_number);
     probabilities = (double *)malloc(sizeof(int) * unvisited_cities->size);
-
-    // roulette wheel selection:
-    int distance;
-    double inverse_distance;
-    int pheromone;
-    double numerator;
-    double denominator = 0;
 
     for (int i = 0; i < unvisited_cities->size; i++)
     {

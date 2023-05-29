@@ -1,0 +1,21 @@
+# Secuencial
+
+## Hecho
+
+- Definido el sistema y se inicializa
+- Calcula distribucion de prob par alas ciudades
+- Se puede marcar como que se movio a una ciudad
+- Calculo proxima ciudad
+
+## Hacer
+
+- Mover un ciclo
+- Ver refuerzo de pheromones
+- Calculo de path mas corto
+- Ensamblar
+
+# Paralela
+
+- Master - Worker
+- SIMD?
+- Master - Worker inteligente? <Mas dinamico>

@@ -16,38 +16,21 @@ int main()
 
     print_system(s);
 
-    // Run 1 cycle
-    next_city(s, 0, 0);
+    // A cycle test
+    for (int ant = 0; ant < s->n_ants; ant++)
+    {
+        // Iter initializes as 1 because the first city
+        // are defined during system initialization
+        for (int iter = 1; iter < s->n_cities; iter++)
+        {
+            next = next_city(s, ant, iter);
+            move_to_city(s, ant, iter, next);
+        }
+    }
 
-    // for (int ant = 0; ant < s->n_ants; ant++)
-    // {
-    //     for (int iter = 0; iter < s->n_cities; iter++)
-    //     {
-    //         printf("[%d] [%d] \n", ant, iter);
-    //         printf("DIDNT ENTER \n");
-    //         next = next_city(s, ant, iter);
-    //         // if (next == -1)
-    //         // {
-    //         //     printf("ERROR DURING EXCECUTION, ant: %d  iter: %d \n ", ant, iter);
-    //         //     return 64;
-    //         // }
-    //         // move_to_city(s, ant, iter, next);
-    //     }
-    // }
     print_system(s);
 
-    // // set_city_as_visited(s, 1);
-    // update_pheromone(s);
-    // print_system(s);
-
-    // printf(" asd %f \n", city_probability(s, 0, 2));
-    // print_int_array(visited_cities(s, 3), 5);
-
-    // printf("%d \n", is_value_in_array(s->cities, s->n_cities, 4));
-    // printf("\n\n");
-    // print_int_matrix(s->list_tabu_list, s->n_ants, s->n_cities);
-    // printf("\n\n");
-    // not_visited_cities(s, 3);
     free(s);
+
     return 0;
 }

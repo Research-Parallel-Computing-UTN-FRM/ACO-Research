@@ -59,7 +59,7 @@ int **initialize_paths(int rows, int columns)
     srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < rows; i++)
     {
-        int r = random_int(columns);
+        int r = random_int(columns - 1);
         tabus[i][0] = r;
     }
 
