@@ -38,7 +38,7 @@ ant_system *malloc_system(int n_cities, int n_ants)
     return system;
 }
 
-ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate)
+ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate, int n_cycles)
 {
     ant_system *system;
 
@@ -47,6 +47,7 @@ ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float 
         return NULL;
 
     // Constants for the system
+    system->n_cycles = n_cycles;
     system->n_cities = n_cities;
     system->n_ants = n_ants;
     system->alpha = alpha;
@@ -94,8 +95,8 @@ Array *not_visited_cities(ant_system *s, int ant_number)
     Array *a;
 
     a = initArray(1);
-    printf("Ant number: %d \n", ant_number);
-    print_int_array(s->list_tabu_list[ant_number], s->n_cities);
+    // printf("Ant number: %d \n", ant_number);
+    // print_int_array(s->list_tabu_list[ant_number], s->n_cities);
     for (int i = 0; i < s->n_cities; i++)
     {
         if (is_value_in_array(visited_cities(s, ant_number), s->n_cities, i) == 0)
@@ -103,9 +104,9 @@ Array *not_visited_cities(ant_system *s, int ant_number)
             insertArray(a, i);
         }
     }
-    printf("array size: %ld \n", a->size);
-    printf("Not visited citites: ");
-    print_int_array(a->array, a->size);
+    // printf("array size: %ld \n", a->size);
+    // printf("Not visited citites: ");
+    // print_int_array(a->array, a->size);
     return a;
 }
 
@@ -141,13 +142,13 @@ int next_city(ant_system *as, int ant_number, int iter)
     {
         probabilities[i] /= denominator;
     }
-    printf("\n\nProbabilities: \n");
-    for (int i = 0; i < unvisited_cities->size; i++)
-    {
-        printf("City:%d P:%f\n", unvisited_cities->array[i], probabilities[i]);
-    }
+    // printf("\n\nProbabilities: \n");
+    // for (int i = 0; i < unvisited_cities->size; i++)
+    // {
+    //     printf("City:%d P:%f\n", unvisited_cities->array[i], probabilities[i]);
+    // }
     int idx = random_from_discrete_distribution(probabilities, unvisited_cities->size);
-    printf("The selected city is %d\n", unvisited_cities->array[idx]);
+    // printf("The selected city is %d\n", unvisited_cities->array[idx]);
     return unvisited_cities->array[idx];
 }
 // iter -> The movement number.
@@ -196,29 +197,39 @@ int best_path_idx(ant_system *s)
 
 void best_solution(ant_system *s)
 {
-    /*Note for the future: Im not sure what happens */
-
-    int best_idx;
+    int best_idx, aux_best_cost;
 
     best_idx = best_path_idx(s);
-
-    // Note: Im not really sure why the size for the copy is this, but it works
-    memcpy(s->best_solution, s->list_tabu_list[best_idx], sizeof(s->best_solution[0]) * s->n_cities);
-
-    // Cost calculation
-    s->best_solution_cost = path_cost(s, best_idx);
+    aux_best_cost = path_cost(s, best_idx);
+    // Will update the best solution if is shorter than the already saved
+    // (The first iteration is INT_MAX)
+    if (aux_best_cost < s->best_solution_cost)
+    {
+        // Note: Im not really sure why the size for the copy is this, but it works
+        memcpy(s->best_solution, s->list_tabu_list[best_idx], sizeof(s->best_solution[0]) * s->n_cities);
+        s->best_solution_cost = aux_best_cost;
+    }
 }
 
 void update_pheromones(ant_system *s)
 {
+    double evaporation = 1.0 - s->evaporation_rate;
+    double reinforcement = 1.0 / s->best_solution_cost; // 1.0 cast the division to double
+    printf("\nREINFORCEMENT: %f \n", reinforcement);
     for (int i = 0; i < s->n_cities; i++)
     {
         for (int j = 0; j < s->n_cities; j++)
         {
             // Evaporation
-            s->pheromones[i][j] *= 1 - s->evaporation_rate;
+            s->pheromones[i][j] *= evaporation;
             // Reinforcement
-            s->pheromones[i][j] += 1 / s->best_solution_cost;
+            s->pheromones[i][j] += reinforcement;
         }
     }
+}
+
+void reset_tabu_list(ant_system *s)
+{
+    free_matrix(s->list_tabu_list, s->n_ants);
+    s->list_tabu_list = initialize_paths(s->n_ants, s->n_cities);
 }

@@ -10,3 +10,5 @@ int random_int(int max);
 int is_value_in_array(int *array, int arr_len, int v);
 
 int random_from_discrete_distribution(double *probabilities, int len);
+
+void free_matrix(int **matrix, int size);

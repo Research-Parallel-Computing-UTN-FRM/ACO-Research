@@ -1,6 +1,7 @@
 #include "array.h"
 struct ant_system
 {
+    int n_cycles;
     float alpha;
     float beta;
     int n_ants;
@@ -19,7 +20,7 @@ struct ant_system
 
 typedef struct ant_system ant_system;
 
-ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate);
+ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate, int n_cycles);
 
 void increment_pheromones(ant_system *system);
 
@@ -32,3 +33,7 @@ int next_city(ant_system *s, int ant_number, int iter);
 void move_to_city(ant_system *s, int ant, int iter, int city);
 
 void best_solution(ant_system *s);
+
+void update_pheromones(ant_system *s);
+
+void reset_tabu_list(ant_system *s);

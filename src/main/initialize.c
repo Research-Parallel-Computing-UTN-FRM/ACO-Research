@@ -60,7 +60,13 @@ int **initialize_paths(int rows, int columns)
     for (int i = 0; i < rows; i++)
     {
         int r = random_int(columns - 1);
+        // printf("GENERATED RANDOM: %d \n", r);
         tabus[i][0] = r;
+        for (int j = 1; j < columns; j++)
+        {
+            // TODO: This shouldnt be -1 or some not valid value?
+            tabus[i][j] = 0;
+        }
     }
 
     return tabus;

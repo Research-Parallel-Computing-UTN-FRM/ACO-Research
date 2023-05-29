@@ -114,7 +114,7 @@ int random_from_discrete_distribution(double *probabilities, int size)
     double cumulative_probability = 0.0;
 
     rand = random_zero_one();
-    printf("Random number: %f \n", rand);
+    // printf("Random number: %f \n", rand);
     for (int i = 0; i < size; i++)
     {
         cumulative_probability += probabilities[i];
@@ -122,4 +122,14 @@ int random_from_discrete_distribution(double *probabilities, int size)
             return i;
     }
     return -1;
+}
+
+void free_matrix(int **matrix, int n_rows)
+{
+    for (int i = 0; i < n_rows; i++)
+    {
+        free(matrix[i]);
+    }
+
+    free(matrix);
 }
