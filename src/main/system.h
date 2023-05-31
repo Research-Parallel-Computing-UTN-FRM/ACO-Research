@@ -8,7 +8,7 @@ struct ant_system
     int n_cities;
     float evaporation_rate;
     int best_solution_cost; // The distance of the best solution
-    int *best_solution;
+    int *best_solution;     // THe length is the same as n_cities
     int *cities;            // {x: x belongs Z0 & x < n_cities} -> [0, 1, ..., n_cities]
                             // Useful when you have to check if a cities is already visited
     int **cities_distances; // n_cities x n_cities matrix

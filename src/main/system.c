@@ -213,8 +213,11 @@ void best_solution(ant_system *s)
 
 void update_pheromones(ant_system *s)
 {
+    int current, next;
+    // Note: Can be optimized merging both loops into 1
     double evaporation = 1.0 - s->evaporation_rate;
-    double reinforcement = 1.0 / s->best_solution_cost; // 1.0 cast the division to double
+    double reinforcement = 3.0 / s->best_solution_cost; // 1.0 cast the division to double
+
     printf("\nREINFORCEMENT: %f \n", reinforcement);
     for (int i = 0; i < s->n_cities; i++)
     {
@@ -222,9 +225,17 @@ void update_pheromones(ant_system *s)
         {
             // Evaporation
             s->pheromones[i][j] *= evaporation;
-            // Reinforcement
-            s->pheromones[i][j] += reinforcement;
         }
+    }
+
+    // Reinforcement pheromones only on the best solution
+    // edges
+    for (int i = 0; i < (s->n_cities - 1); i++)
+    {
+        current = s->best_solution[i];
+        next = s->best_solution[i + 1];
+        // Reinforcement
+        s->pheromones[current][next] += reinforcement;
     }
 }
 
