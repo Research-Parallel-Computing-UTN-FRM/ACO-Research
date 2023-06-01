@@ -27,7 +27,7 @@ int **initialize_distances(int size)
     }
     for (int i = 0; i < size; i++)
     {
-        distances[i][i] = INT_MAX;
+        distances[i][i] = 0;
     }
     return distances;
 }
@@ -62,7 +62,6 @@ int **initialize_paths(int rows, int columns)
     for (int i = 0; i < rows; i++)
     {
         int r = random_int(columns - 1);
-        // printf("GENERATED RANDOM: %d \n", r);
         tabus[i][0] = r;
         for (int j = 1; j < columns; j++)
         {

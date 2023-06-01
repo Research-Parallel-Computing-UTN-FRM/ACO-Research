@@ -107,7 +107,6 @@ int is_value_in_array(int *array, int arr_len, int v)
     return 0;
 }
 
-// TODO: EL ERROR PARECE ESTAR ACA
 int random_from_discrete_distribution(double *probabilities, int size)
 {
     /* Returns the index of the element randomly selected */

@@ -159,18 +159,12 @@ int next_city(ant_system *as, int ant_number, int iter)
     Array *unvisited_cities, *available_cities;
 
     // roulette wheel selection:
-    int distance, pheromone;
-    double inverse_distance, numerator, denominator = 0;
+    int distance;
+    double inverse_distance, numerator, pheromone, denominator = 0;
 
     current = current_city(as, ant_number, iter);
     unvisited_cities = not_visited_cities(as, ant_number);
     available_cities = available_next_cities(unvisited_cities, current);
-    // printf("CURRENT: %d\n", current);
-    // printf("Unvisited citites:");
-    print_int_array(unvisited_cities->array, unvisited_cities->size);
-    // printf("Available cities:");
-    // print_int_array(available_cities->array, available_cities->size);
-    // freeArray(unvisited_cities);
 
     probabilities = (double *)malloc(sizeof(int) *
                                      available_cities->size);
@@ -180,22 +174,7 @@ int next_city(ant_system *as, int ant_number, int iter)
         distance = as->cities_distances[current][next];
         inverse_distance = 1.0f / distance;
         available = available_cities->array[i];
-        printf("...................\n");
-        printf("\n");
-        printf("Iter: %d \n", i);
-        printf("Current: %d Available_selected: %d\n", current, available);
-        printf("Available citites: ");
-        print_int_array(available_cities->array,
-                        available_cities->size);
-        printf("\n");
-
         pheromone = as->pheromones[current][available];
-        printf("Pheromones iter %d \n", i);
-        print_double_matrix(as->pheromones,
-                            as->n_cities, as->n_cities);
-        printf("\n");
-        printf("...................\n");
-
         numerator = pow(pheromone, as->alpha) *
                     pow(inverse_distance, as->beta);
         denominator += numerator;
@@ -204,21 +183,20 @@ int next_city(ant_system *as, int ant_number, int iter)
     for (int i = 0; i < available_cities->size; i++)
     {
         probabilities[i] /= denominator;
-        printf("probabilities[%d] %f\n", i, probabilities[i]);
     }
 
-    int idx = random_from_discrete_distribution(probabilities, available_cities->size);
+    int idx = random_from_discrete_distribution(probabilities,
+                                                available_cities->size);
     if (idx == -1)
     {
         printf("IT BROKE DURING NEXT CITY SELECTION");
         exit(64);
     }
 
-    printf("SELECTED IDX: %d \n", idx);
     next_city = available_cities->array[idx];
 
-    // freeArray(available_cities);
-    // free(probabilities);
+    freeArray(available_cities);
+    free(probabilities);
 
     return next_city;
 }
@@ -229,7 +207,6 @@ int next_city(ant_system *as, int ant_number, int iter)
 void move_to_city(ant_system *s, int ant, int iter, int city)
 {
     s->list_tabu_list[ant][iter] = city;
-    printf("moved_position:  %d \n", s->list_tabu_list[ant][iter]);
 }
 
 // Returns the sum for the path, based on the distances defined in the system
