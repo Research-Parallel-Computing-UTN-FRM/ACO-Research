@@ -1,40 +1,97 @@
-CC = gcc
-SRC = src
-
-SOURCES = main.c system.c initialize.c util.c
-OBJECTS = $(SOURCES:%.c=%.o)
-
-TARGET = target
-NAME = implementation
-EXE = $(TARGET)/$(NAME)
-
-MAKE_DIR_P = mkdir -p 
+#Taken from
+#https://riptutorial.com/makefile/example/21376/building-from-different-source-folders-to-different-target-folders
 
 
-build: create_target_dir compile link clean_objects
+# Set project directory one level above of Makefile directory. $(CURDIR) is a GNU make variable containing the path to the current working directory
+PROJDIR := $(realpath $(CURDIR)/)
+SOURCEDIR := $(PROJDIR)/src
+BUILDDIR := $(PROJDIR)/build
 
-compile: $(SOURCES)
-	$(CC) -c  $(SOURCES)
+# Name of the final executable
+TARGET = ants
 
-link: $(OBJECTS)
-	$(CC) -o $(EXE) $(OBJECTS)
+# Decide whether the commands will be shwon or not
+VERBOSE = TRUE
 
-create_target_dir: 
-	$(MAKE_DIR_P) $(TARGET)
+# Create the list of directories
+DIRS = main
+SOURCEDIRS = $(foreach dir, $(DIRS), $(addprefix $(SOURCEDIR)/, $(dir)))
+TARGETDIRS = $(foreach dir, $(DIRS), $(addprefix $(BUILDDIR)/, $(dir)))
 
-main.o: main.c main.h
-system.o: system.c system.h
-initialize.o: initialize.c initialize.h
-util.o: util.c util.h
+# Generate the GCC includes parameters by adding -I before each source folder
+INCLUDES = $(foreach dir, $(SOURCEDIRS), $(addprefix -I, $(dir)))
 
+# Add this list to VPATH, the place make will look for the source files
+VPATH = $(SOURCEDIRS)
 
-%.o: %.c
+# Create a list of *.c sources in DIRS
+SOURCES = $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
 
-clean_objects: $(OBJECTS)
-	rm -f $(OBJECTS)
+# Define objects for all sources
+OBJS := $(subst $(SOURCEDIR),$(BUILDDIR),$(SOURCES:.c=.o))
 
-.PHONY: clean
-clean: clean_objects
-	rm -rf $(TARGET)    # Remove the executable file
-	
+# Define dependencies files for all objects
+DEPS = $(OBJS:.o=.d)
 
+# Name the compiler
+CC = gcc -g -Wall 
+
+# Libraries to link
+LIBRARIES = -lm
+
+# Compile flags
+
+# OS specific part
+ifeq ($(OS),Windows_NT)
+    RM = del /F /Q 
+    RMDIR = -RMDIR /S /Q
+    MKDIR = -mkdir
+    ERRIGNORE = 2>NUL || true
+    SEP=\\
+else
+    RM = rm -rf 
+    RMDIR = rm -rf 
+    MKDIR = mkdir -p
+    ERRIGNORE = 2>/dev/null
+    SEP=/
+endif
+
+# Remove space after separator
+PSEP = $(strip $(SEP))
+
+# Hide or not the calls depending of VERBOSE
+ifeq ($(VERBOSE),TRUE)
+    HIDE =  
+else
+    HIDE = @
+endif
+
+# Define the function that will generate each rule
+define generateRules
+$(1)/%.o: %.c
+	@echo Building $$@
+	$(HIDE)$(CC) -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD
+endef
+
+.PHONY: all clean directories 
+
+all: clean directories $(TARGET) 
+
+$(TARGET): $(OBJS)
+	$(HIDE)echo Linking $@
+	$(HIDE)$(CC) $(OBJS) -o $(TARGET) $(LIBRARIES)
+
+# Include dependencies
+-include $(DEPS)
+
+# Generate rules
+$(foreach targetdir, $(TARGETDIRS), $(eval $(call generateRules, $(targetdir))))
+
+directories: 
+	$(HIDE)$(MKDIR) $(subst /,$(PSEP),$(TARGETDIRS)) $(ERRIGNORE)
+
+# Remove all objects, dependencies and executable files generated during the build
+clean:
+	$(HIDE)$(RMDIR) $(subst /,$(PSEP),$(TARGETDIRS)) $(ERRIGNORE)
+	$(HIDE)$(RM) $(TARGET) $(ERRIGNORE)
+	@echo Cleaning done ! 
