@@ -1,4 +1,5 @@
 void print_int_matrix(int **matrix, int rows, int columns);
+void print_double_matrix(double **matrix, int rows, int columns);
 
 void print_int_array(int *array, int columns);
 void print_double_array(double *array, int columns);

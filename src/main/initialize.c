@@ -1,9 +1,11 @@
-#include "initialize.h"
+#include <limits.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+
 #include "system.h"
 #include "utils.h"
+#include "initialize.h"
 
 int **initialize_distances(int size)
 {
@@ -25,7 +27,7 @@ int **initialize_distances(int size)
     }
     for (int i = 0; i < size; i++)
     {
-        distances[i][i] = 0;
+        distances[i][i] = INT_MAX;
     }
     return distances;
 }
@@ -65,7 +67,7 @@ int **initialize_paths(int rows, int columns)
         for (int j = 1; j < columns; j++)
         {
             // TODO: This shouldnt be -1 or some not valid value?
-            tabus[i][j] = 0;
+            tabus[i][j] = -1;
         }
     }
 

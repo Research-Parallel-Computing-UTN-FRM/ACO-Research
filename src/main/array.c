@@ -1,7 +1,7 @@
 #include "array.h"
 #include <stdlib.h>
 
-Array *initArray(size_t initialSize)
+Array *initArray(int initialSize)
 {
     Array *a = (struct Array *)malloc(sizeof(struct Array));
     a->array = malloc(initialSize * sizeof(int));

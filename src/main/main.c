@@ -20,29 +20,26 @@ int main()
     for (int c = 0; c < s->n_cycles; c++)
     {
         // A single cycle
-        for (int ant = 0; ant < s->n_ants; ant++)
+        for (int iter = 0; iter < (s->n_cities - 1); iter++)
         {
             // Iter initializes as 1 because the first city (iter 0)
             // is defined during system initialization
-            for (int iter = 1; iter < s->n_cities; iter++)
+            for (int ant = 0; ant < s->n_ants; ant++)
             {
                 next = next_city(s, ant, iter);
-                move_to_city(s, ant, iter, next);
+                move_to_city(s, ant, iter + 1, next);
             }
         }
 
         best_solution(s);
         update_pheromones(s);
         reset_tabu_list(s);
-
-        printf("AFTER CYCLE N-%d\n", c);
-        print_system(s);
     }
 
     printf("END OF ITERATIONS \n");
     print_system(s);
 
-    free(s);
+    free_system(s);
 
     return 0;
 }

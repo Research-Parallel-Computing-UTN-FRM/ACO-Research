@@ -38,6 +38,26 @@ ant_system *malloc_system(int n_cities, int n_ants)
     return system;
 }
 
+void free_system(ant_system *s)
+{
+    for (int i = 0; i < s->n_cities; i++)
+    {
+        free(s->cities_distances[i]);
+        free(s->pheromones[i]);
+    }
+    free(s->cities_distances);
+    free(s->pheromones);
+
+    for (int i = 0; i < s->n_ants; i++)
+    {
+        free(s->list_tabu_list[i]);
+    }
+    free(s->list_tabu_list);
+    free(s->cities);
+
+    free(s);
+}
+
 ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate, int n_cycles)
 {
     ant_system *system;
@@ -93,20 +113,36 @@ Array *not_visited_cities(ant_system *s, int ant_number)
     // If the number of not visited cities can be obtained
     // a simple array can be used, and it should be faster
     Array *a;
+    int *visited;
 
     a = initArray(1);
-    // printf("Ant number: %d \n", ant_number);
-    // print_int_array(s->list_tabu_list[ant_number], s->n_cities);
+
+    visited = visited_cities(s, ant_number);
     for (int i = 0; i < s->n_cities; i++)
     {
-        if (is_value_in_array(visited_cities(s, ant_number), s->n_cities, i) == 0)
+        if (is_value_in_array(visited, s->n_cities, i) == 0)
         {
             insertArray(a, i);
         }
     }
-    // printf("array size: %ld \n", a->size);
-    // printf("Not visited citites: ");
-    // print_int_array(a->array, a->size);
+
+    return a;
+}
+
+Array *available_next_cities(Array *a, int current)
+{
+    Array *array;
+
+    array = initArray(1);
+
+    for (int i = 0; i < a->size; i++)
+    {
+        if (a->array[i] != current)
+        {
+            insertArray(array, a->array[i]);
+        }
+    }
+
     return a;
 }
 
@@ -118,38 +154,73 @@ int current_city(ant_system *s, int ant_number, int iter)
 // Returns the number of the next city to move
 int next_city(ant_system *as, int ant_number, int iter)
 {
-    int current, next_idx, next;
+    int current, next, next_city, available;
     double *probabilities;
-    Array *unvisited_cities;
+    Array *unvisited_cities, *available_cities;
+
     // roulette wheel selection:
     int distance, pheromone;
     double inverse_distance, numerator, denominator = 0;
 
     current = current_city(as, ant_number, iter);
     unvisited_cities = not_visited_cities(as, ant_number);
-    probabilities = (double *)malloc(sizeof(int) * unvisited_cities->size);
+    available_cities = available_next_cities(unvisited_cities, current);
+    // printf("CURRENT: %d\n", current);
+    // printf("Unvisited citites:");
+    print_int_array(unvisited_cities->array, unvisited_cities->size);
+    // printf("Available cities:");
+    // print_int_array(available_cities->array, available_cities->size);
+    // freeArray(unvisited_cities);
 
-    for (int i = 0; i < unvisited_cities->size; i++)
+    probabilities = (double *)malloc(sizeof(int) *
+                                     available_cities->size);
+    for (int i = 0; i < available_cities->size; i++)
     {
-        distance = as->cities_distances[current][unvisited_cities->array[i]];
+        next = available_cities->array[i];
+        distance = as->cities_distances[current][next];
         inverse_distance = 1.0f / distance;
-        pheromone = as->pheromones[current][unvisited_cities->array[i]];
-        numerator = pow(pheromone, as->alpha) * pow(inverse_distance, as->beta);
+        available = available_cities->array[i];
+        printf("...................\n");
+        printf("\n");
+        printf("Iter: %d \n", i);
+        printf("Current: %d Available_selected: %d\n", current, available);
+        printf("Available citites: ");
+        print_int_array(available_cities->array,
+                        available_cities->size);
+        printf("\n");
+
+        pheromone = as->pheromones[current][available];
+        printf("Pheromones iter %d \n", i);
+        print_double_matrix(as->pheromones,
+                            as->n_cities, as->n_cities);
+        printf("\n");
+        printf("...................\n");
+
+        numerator = pow(pheromone, as->alpha) *
+                    pow(inverse_distance, as->beta);
         denominator += numerator;
         probabilities[i] = numerator;
     }
-    for (int i = 0; i < unvisited_cities->size; i++)
+    for (int i = 0; i < available_cities->size; i++)
     {
         probabilities[i] /= denominator;
+        printf("probabilities[%d] %f\n", i, probabilities[i]);
     }
-    // printf("\n\nProbabilities: \n");
-    // for (int i = 0; i < unvisited_cities->size; i++)
-    // {
-    //     printf("City:%d P:%f\n", unvisited_cities->array[i], probabilities[i]);
-    // }
-    int idx = random_from_discrete_distribution(probabilities, unvisited_cities->size);
-    // printf("The selected city is %d\n", unvisited_cities->array[idx]);
-    return unvisited_cities->array[idx];
+
+    int idx = random_from_discrete_distribution(probabilities, available_cities->size);
+    if (idx == -1)
+    {
+        printf("IT BROKE DURING NEXT CITY SELECTION");
+        exit(64);
+    }
+
+    printf("SELECTED IDX: %d \n", idx);
+    next_city = available_cities->array[idx];
+
+    // freeArray(available_cities);
+    // free(probabilities);
+
+    return next_city;
 }
 // iter -> The movement number.
 // i.e The first time the ant moves (iter = 1),
@@ -158,6 +229,7 @@ int next_city(ant_system *as, int ant_number, int iter)
 void move_to_city(ant_system *s, int ant, int iter, int city)
 {
     s->list_tabu_list[ant][iter] = city;
+    printf("moved_position:  %d \n", s->list_tabu_list[ant][iter]);
 }
 
 // Returns the sum for the path, based on the distances defined in the system
@@ -206,7 +278,9 @@ void best_solution(ant_system *s)
     if (aux_best_cost < s->best_solution_cost)
     {
         // Note: Im not really sure why the size for the copy is this, but it works
-        memcpy(s->best_solution, s->list_tabu_list[best_idx], sizeof(s->best_solution[0]) * s->n_cities);
+        memcpy(s->best_solution,
+               s->list_tabu_list[best_idx],
+               sizeof(s->best_solution[0]) * s->n_cities);
         s->best_solution_cost = aux_best_cost;
     }
 }
@@ -218,7 +292,6 @@ void update_pheromones(ant_system *s)
     double evaporation = 1.0 - s->evaporation_rate;
     double reinforcement = 3.0 / s->best_solution_cost; // 1.0 cast the division to double
 
-    printf("\nREINFORCEMENT: %f \n", reinforcement);
     for (int i = 0; i < s->n_cities; i++)
     {
         for (int j = 0; j < s->n_cities; j++)

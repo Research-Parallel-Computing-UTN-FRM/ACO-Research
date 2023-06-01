@@ -107,14 +107,14 @@ int is_value_in_array(int *array, int arr_len, int v)
     return 0;
 }
 
+// TODO: EL ERROR PARECE ESTAR ACA
 int random_from_discrete_distribution(double *probabilities, int size)
 {
-    /* Returns the index of the element randomly selected*/
+    /* Returns the index of the element randomly selected */
     double rand;
-    double cumulative_probability = 0.0;
+    double cumulative_probability = 0.0f;
 
     rand = random_zero_one();
-    // printf("Random number: %f \n", rand);
     for (int i = 0; i < size; i++)
     {
         cumulative_probability += probabilities[i];

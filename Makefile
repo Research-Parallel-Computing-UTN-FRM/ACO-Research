@@ -34,7 +34,7 @@ OBJS := $(subst $(SOURCEDIR),$(BUILDDIR),$(SOURCES:.c=.o))
 DEPS = $(OBJS:.o=.d)
 
 # Name the compiler
-CC = gcc
+CC = gcc -g -Wall 
 
 # Libraries to link
 LIBRARIES = -lm

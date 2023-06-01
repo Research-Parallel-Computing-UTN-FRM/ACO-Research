@@ -3,11 +3,11 @@
 struct Array
 {
     int *array;
-    size_t used;
-    size_t size;
+    int used;
+    int size;
 };
 typedef struct Array Array;
 
-Array *initArray(size_t initialSize);
+Array *initArray(int initialSize);
 void insertArray(Array *a, int element);
 void freeArray(Array *a);

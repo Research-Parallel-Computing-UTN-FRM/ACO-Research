@@ -22,6 +22,8 @@ typedef struct ant_system ant_system;
 
 ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate, int n_cycles);
 
+void free_system(ant_system *s);
+
 void increment_pheromones(ant_system *system);
 
 int *visited_cities(ant_system *s, int ant_number);
