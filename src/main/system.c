@@ -118,6 +118,7 @@ Array *not_visited_cities(ant_system *s, int ant_number)
     a = initArray(1);
 
     visited = visited_cities(s, ant_number);
+    
     for (int i = 0; i < s->n_cities; i++)
     {
         if (is_value_in_array(visited, s->n_cities, i) == 0)
@@ -166,20 +167,24 @@ int next_city(ant_system *as, int ant_number, int iter)
     unvisited_cities = not_visited_cities(as, ant_number);
     available_cities = available_next_cities(unvisited_cities, current);
 
-    probabilities = (double *)malloc(sizeof(int) *
+    //print_int_array(unvisited_cities->array, unvisited_cities->size);
+    print_int_array(available_cities->array, available_cities->size);
+
+    probabilities = (double *)malloc(sizeof(double) *
                                      available_cities->size);
     for (int i = 0; i < available_cities->size; i++)
     {
         next = available_cities->array[i];
-        distance = as->cities_distances[current][next];
-        inverse_distance = 1.0f / distance;
+        //distance = as->cities_distances[current][next];
+        //inverse_distance = 1.0f / distance;
         available = available_cities->array[i];
         pheromone = as->pheromones[current][available];
-        numerator = pow(pheromone, as->alpha) *
-                    pow(inverse_distance, as->beta);
+        numerator = pow(pheromone, as->alpha);
+                    //*pow(inverse_distance, as->beta);
         denominator += numerator;
         probabilities[i] = numerator;
     }
+    printf("denominator: %f\n", denominator);
     for (int i = 0; i < available_cities->size; i++)
     {
         probabilities[i] /= denominator;
@@ -267,7 +272,7 @@ void update_pheromones(ant_system *s)
     int current, next;
     // Note: Can be optimized merging both loops into 1
     double evaporation = 1.0 - s->evaporation_rate;
-    double reinforcement = 3.0 / s->best_solution_cost; // 1.0 cast the division to double
+    double reinforcement = 0.5; //3.0 s->best_solution_cost; // 1.0 cast the division to double TODO
 
     for (int i = 0; i < s->n_cities; i++)
     {
