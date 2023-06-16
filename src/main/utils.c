@@ -66,9 +66,9 @@ void print_system(ant_system *system)
     print_double_matrix(system->pheromones, system->n_cities, system->n_cities);
     printf("\n");
 
-/*     printf("Distances: \n");
+    printf("Distances: \n");
     print_int_matrix(system->cities_distances, system->n_cities, system->n_cities);
-    printf("\n"); */
+    printf("\n");
 
     printf("Solution: \n");
     printf("COST: %d\n", system->best_solution_cost);
@@ -115,15 +115,15 @@ int random_from_discrete_distribution(double *probabilities, int size)
 
     rand = random_zero_one();
 
-    printf("rand %f \n", rand);
+    //printf("rand %f \n", rand);
     
     for (int i = 0; i < size; i++)
     {
         cumulative_probability += probabilities[i];
-        printf("cumulative_probability %f \n", cumulative_probability);
+        //printf("cumulative_probability %f \n", cumulative_probability);
         if (rand <= cumulative_probability)
         {
-            printf("returning %d \n", i);
+            //printf("returning %d \n", i);
             return i;
         }
     }

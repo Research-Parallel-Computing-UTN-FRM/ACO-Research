@@ -136,7 +136,7 @@ Array *available_next_cities(Array *a, int current)
 
     array = initArray(1);
 
-    for (int i = 0; i < a->size; i++)
+    for (int i = 0; i < a->used; i++)
     {
         if (a->array[i] != current)
         {
@@ -168,13 +168,13 @@ int next_city(ant_system *as, int ant_number, int iter)
     available_cities = available_next_cities(unvisited_cities, current);
 
     //print_int_array(unvisited_cities->array, unvisited_cities->size);
-    print_int_array(available_cities->array, available_cities->size);
+    //print_int_array(available_cities->array, available_cities->size);
 
     probabilities = (double *)malloc(sizeof(double) *
                                      available_cities->size);
     for (int i = 0; i < available_cities->size; i++)
     {
-        next = available_cities->array[i];
+        //next = available_cities->array[i];
         //distance = as->cities_distances[current][next];
         //inverse_distance = 1.0f / distance;
         available = available_cities->array[i];
@@ -184,7 +184,7 @@ int next_city(ant_system *as, int ant_number, int iter)
         denominator += numerator;
         probabilities[i] = numerator;
     }
-    printf("denominator: %f\n", denominator);
+    //printf("denominator: %f\n", denominator);
     for (int i = 0; i < available_cities->size; i++)
     {
         probabilities[i] /= denominator;
