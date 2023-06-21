@@ -1,27 +1,21 @@
-#include <limits.h>
 #include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
-
-#include "system.h"
-#include "utils.h"
+#include "random.h"
 #include "initialize.h"
 
-int **initialize_distances(int size)
+int **initialize_distances(int size, int max_distance)
 {
     int **distances = (int **)malloc(sizeof(int *) * size);
+
     for (int i = 0; i < size; i++)
     {
         distances[i] = malloc(sizeof(int) * size);
     }
 
-    srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            // Generate a symmetric matrix
-            distances[i][j] = random_int(500);
+            distances[i][j] = random_integer(max_distance);
             distances[j][i] = distances[i][j];
         }
     }
@@ -49,35 +43,29 @@ double **initialize_pheromones(int size)
     return pheromones;
 }
 
-int **initialize_paths(int rows, int columns)
+int **initialize_tabu_list(int rows, int columns)
 {
-    int **tabus = (int **)malloc(sizeof(int *) * rows);
+    int **tabu_list = (int **)malloc(sizeof(int *) * rows);
     for (int i = 0; i < rows; i++)
     {
-        tabus[i] = malloc(sizeof(int) * columns);
+        tabu_list[i] = malloc(sizeof(int) * columns);
     }
-
-    // Set an initial node for every ant
-    srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < rows; i++)
     {
-        int r = random_int(columns - 1);
-        tabus[i][0] = r;
+        int r = random_integer(columns - 1);
+        tabu_list[i][0] = r;
         for (int j = 1; j < columns; j++)
         {
-            // TODO: This shouldnt be -1 or some not valid value?
-            tabus[i][j] = -1;
+            tabu_list[i][j] = -1;
         }
     }
-
-    return tabus;
+    return tabu_list;
 }
 
-int *initialize_cities_list(int n_cities)
+int *initialize_cities(int total_cities)
 {
-
-    int *cities = (int *)malloc(sizeof(int) * n_cities);
-    for (int i = 0; i < n_cities; i++)
+    int *cities = (int *)malloc(sizeof(int) * total_cities);
+    for (int i = 0; i < total_cities; i++)
     {
         cities[i] = i;
     }

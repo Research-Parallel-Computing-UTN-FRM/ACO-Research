@@ -1,41 +1,31 @@
-#include "array.h"
-struct ant_system
+typedef struct AntSystem
 {
-    int n_cycles;
+    int total_cycles;
     float alpha;
     float beta;
-    int n_ants;
-    int n_cities;
+    int total_ants;
+    int total_cities;
+    int starting_city;
     float evaporation_rate;
-    int best_solution_cost; // The distance of the best solution
-    int *best_solution;     // THe length is the same as n_cities
-    int *cities;            // {x: x belongs Z0 & x < n_cities} -> [0, 1, ..., n_cities]
-                            // Useful when you have to check if a cities is already visited
-    int **cities_distances; // n_cities x n_cities matrix
-    double **pheromones;    // n_cities x n_cities matrix
-    int **list_tabu_list;   // n_ants x n_cities matrix
-                            // List of tabu list. Each array inside the
-                            // matrix has the path followed by one ant
-};
+    int best_solution_cost;
+    int *best_solution;
+    int *cities;
+    int **cities_distances;
+    double **pheromones;
+    int **tabu_list;
+} AntSystem;
 
-typedef struct ant_system ant_system;
+AntSystem *create_ant_system(
+    int total_cities,
+    int total_ants,
+    int starting_city,
+    float alpha,
+    float beta,
+    float evaporation_rate,
+    int total_cycles);
 
-ant_system *new_system(int n_cities, int n_ants, float alpha, float beta, float evaporation_rate, int n_cycles);
+void free_ant_system(AntSystem *s);
 
-void free_system(ant_system *s);
+void initialize_random_cities_distances(AntSystem *ant_system, int max_distance);
 
-void increment_pheromones(ant_system *system);
-
-int *visited_cities(ant_system *s, int ant_number);
-
-Array *not_visited_cities(ant_system *s, int ant_number);
-
-int next_city(ant_system *s, int ant_number, int iter);
-
-void move_to_city(ant_system *s, int ant, int iter, int city);
-
-void best_solution(ant_system *s);
-
-void update_pheromones(ant_system *s);
-
-void reset_tabu_list(ant_system *s);
+int *ant_system_cycle(AntSystem *ant_system);

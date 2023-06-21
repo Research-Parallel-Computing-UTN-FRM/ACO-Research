@@ -1,15 +1,13 @@
+#include <stdbool.h>
+
 void print_int_matrix(int **matrix, int rows, int columns);
+
 void print_double_matrix(double **matrix, int rows, int columns);
 
-void print_int_array(int *array, int columns);
-void print_double_array(double *array, int columns);
+void print_int_vector(int *vector, int columns);
 
-void print_system(ant_system *system);
+void print_double_vector(double *vector, int columns);
 
-int random_int(int max);
+bool int_in_vector(int *vector, int columns, int value);
 
-int is_value_in_array(int *array, int arr_len, int v);
-
-int random_from_discrete_distribution(double *probabilities, int len);
-
-void free_matrix(int **matrix, int size);
+int sum_int_vector(int *vector, int columns);

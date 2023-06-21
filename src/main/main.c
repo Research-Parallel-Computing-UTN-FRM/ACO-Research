@@ -3,45 +3,64 @@
 #include "system.h"
 #include "utils.h"
 
+void print_ant_system(const AntSystem *ant_system)
+{
+    printf("total_cycles: %d\n", ant_system->total_cycles);
+    printf("alpha: %f\n", ant_system->alpha);
+    printf("beta: %f\n", ant_system->beta);
+    printf("total_ants: %d\n", ant_system->total_ants);
+    printf("total_cities: %d\n", ant_system->total_cities);
+    printf("evaporation_rate: %f\n", ant_system->evaporation_rate);
+    printf("best_solution_cost: %d\n", ant_system->best_solution_cost);
+    printf("best_solution:\n");
+    print_int_vector(ant_system->best_solution, ant_system->total_cities);
+    printf("cities:\n");
+    print_int_vector(ant_system->cities, ant_system->total_cities);
+    printf("cities_distances:\n");
+    print_int_matrix(ant_system->cities_distances, ant_system->total_cities, ant_system->total_cities);
+    printf("pheromones:\n");
+    print_double_matrix(ant_system->pheromones, ant_system->total_cities, ant_system->total_cities);
+    printf("tabu_list:\n");
+    print_int_matrix(ant_system->tabu_list, ant_system->total_ants, ant_system->total_cities);
+}
+
 int main()
 {
-    int next;
-    ant_system *s;
-    s = new_system(1000, 500, 1, 1, 0.5, 100);
-    if (s == NULL)
+    // Ant system configuration
+    int total_cycles = 100;
+    float alpha = 1;
+    float beta = 1;
+    int total_ants = 400;
+    int total_cities = 10;
+    int starting_city = -1; // random
+    float evaporation_rate = 0.5;
+    int max_distance = 500;
+
+    // Random seed
+    const int SEED = 42;
+    srand(SEED);
+
+    // Create ant system
+    AntSystem *ant_system;
+    ant_system = create_ant_system(
+        total_cities,
+        total_ants,
+        starting_city,
+        alpha,
+        beta,
+        evaporation_rate,
+        total_cycles);
+    initialize_random_cities_distances(ant_system, max_distance);
+
+    // Algorithm execution
+    printf("distances:\n");
+    print_int_matrix(ant_system->cities_distances, ant_system->total_cities, ant_system->total_cities);
+    for (int cycle = 0; cycle < ant_system->total_cycles; cycle++)
     {
-        printf("FAILED");
-        return 0;
+        ant_system_cycle(ant_system);
     }
-
-    //printf("FIRST INITIALIZATION");
-    //print_system(s);
-
-    for (int c = 0; c < s->n_cycles; c++)
-    {
-        // A single cycle
-        for (int iter = 0; iter < (s->n_cities - 1); iter++)
-        {
-            // Iter initializes as 1 because the first city (iter 0)
-            // is defined during system initialization
-            for (int ant = 0; ant < s->n_ants; ant++)
-            {
-                next = next_city(s, ant, iter);
-                move_to_city(s, ant, iter + 1, next);
-                //print_system(s);
-            }
-            
-        }
-        //print_system(s);
-        best_solution(s);
-        update_pheromones(s);
-        reset_tabu_list(s);
-    }
-
-    printf("END OF ITERATIONS \n");
-    print_system(s);
-
-    free_system(s);
-
+    printf("\nbest solution found:\n");
+    print_int_vector(ant_system->best_solution, ant_system->total_cities);
+    printf("\nbest solution cost: %d\n", ant_system->best_solution_cost);
     return 0;
 }
