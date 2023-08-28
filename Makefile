@@ -40,6 +40,7 @@ CC = gcc -g -Wall
 LIBRARIES = -lm
 
 # Compile flags
+FLAGS = -O3
 
 # OS specific part
 ifeq ($(OS),Windows_NT)
@@ -70,7 +71,7 @@ endif
 define generateRules
 $(1)/%.o: %.c
 	@echo Building $$@
-	$(HIDE)$(CC) -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD
+	$(HIDE)$(CC) -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD $(FLAGS)
 endef
 
 .PHONY: all clean directories 

@@ -1,0 +1,437 @@
+==152975== Memcheck, a memory error detector
+==152975== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==152975== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==152975== Command: ./ants
+==152975== Parent PID: 143049
+==152975== 
+--152975-- 
+--152975-- Valgrind options:
+--152975--    --leak-check=full
+--152975--    --show-leak-kinds=all
+--152975--    --track-origins=yes
+--152975--    --verbose
+--152975--    --log-file=valgrind-out.txt
+--152975-- Contents of /proc/version:
+--152975--   Linux version 5.15.0-72-generic (buildd@lcy02-amd64-074) (gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #79~20.04.1-Ubuntu SMP Thu Apr 20 22:12:07 UTC 2023
+--152975-- 
+--152975-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--152975-- Page sizes: currently 4096, max supported 4096
+--152975-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--152975-- Reading syms from /home/emma/Facultad/repositorio-compartido-inv-pp/ants
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--152975--   Considering /usr/lib/debug/.build-id/45/87364908de169dec62ffa538170118c1c3a078.debug ..
+--152975--   .. build-id is valid
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--152975--    object doesn't have a symbol table
+--152975--    object doesn't have a dynamic symbol table
+--152975-- Scheduler: using generic scheduler lock implementation.
+--152975-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==152975== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-152975-by-emma-on-???
+==152975== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-152975-by-emma-on-???
+==152975== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-152975-by-emma-on-???
+==152975== 
+==152975== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==152975== don't want to do, unless you know exactly what you're doing,
+==152975== or are doing some strange experiment):
+==152975==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=152975 ...command...
+==152975== 
+==152975== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==152975==   /path/to/gdb ./ants
+==152975== and then give GDB the following command
+==152975==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=152975
+==152975== --pid is optional if only one valgrind process is running
+==152975== 
+--152975-- REDIR: 0x4022e20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--152975-- REDIR: 0x4022bf0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--152975--    object doesn't have a symbol table
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--152975--    object doesn't have a symbol table
+==152975== WARNING: new redirection conflicts with existing -- ignoring it
+--152975--     old: 0x04022e20 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--152975--     new: 0x04022e20 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--152975-- REDIR: 0x401f600 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--152975-- REDIR: 0x4023380 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/libm-2.31.so
+--152975--   Considering /usr/lib/debug/.build-id/fe/91b4090ea04c1559ff71dd9290062776618891.debug ..
+--152975--   .. build-id is valid
+--152975-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--152975--   Considering /usr/lib/debug/.build-id/18/78e6b475720c7c51969e69ab2d276fae6d1dee.debug ..
+--152975--   .. build-id is valid
+--152975-- REDIR: 0x4a4f480 (libc.so.6:memmove) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e780 (libc.so.6:strncpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f7b0 (libc.so.6:strcasecmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e0a0 (libc.so.6:strcat) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e7e0 (libc.so.6:rindex) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a50c50 (libc.so.6:rawmemchr) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6bce0 (libc.so.6:wmemchr) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6b820 (libc.so.6:wcscmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f5e0 (libc.so.6:mempcpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f410 (libc.so.6:bcmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e710 (libc.so.6:strncmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e150 (libc.so.6:strcmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f540 (libc.so.6:memset) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6b7e0 (libc.so.6:wcschr) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e670 (libc.so.6:strnlen) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e230 (libc.so.6:strcspn) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f800 (libc.so.6:strncasecmp) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e1d0 (libc.so.6:strcpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f950 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6cf50 (libc.so.6:wcsnlen) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6b860 (libc.so.6:wcscpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e820 (libc.so.6:strpbrk) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e100 (libc.so.6:index) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4e630 (libc.so.6:strlen) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a57bb0 (libc.so.6:memrchr) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f850 (libc.so.6:strcasecmp_l) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f3d0 (libc.so.6:memchr) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a6b930 (libc.so.6:wcslen) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4eae0 (libc.so.6:strspn) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f750 (libc.so.6:stpncpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f6f0 (libc.so.6:stpcpy) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a50c90 (libc.so.6:strchrnul) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4a4f8a0 (libc.so.6:strncasecmp_l) redirected to 0x48331d0 (_vgnU_ifunc_wrapper)
+--152975-- REDIR: 0x4b37500 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
+--152975-- REDIR: 0x4a490e0 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--152975-- REDIR: 0x4b37310 (libc.so.6:__strchrnul_avx2) redirected to 0x4843540 (strchrnul)
+--152975-- REDIR: 0x4b376d0 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
+--152975-- REDIR: 0x4b3a6c0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A26958: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x4A0A69B: _itoa_word (_itoa.c:179)
+==152975==    by 0x4A26574: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A0A6AD: _itoa_word (_itoa.c:179)
+==152975==    by 0x4A26574: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A27228: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A266EE: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+--152975-- REDIR: 0x4a49e80 (libc.so.6:realloc) redirected to 0x483df30 (realloc)
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x109AEF: available_next_cities (system.c:140)
+==152975==    by 0x109BD7: next_city (system.c:168)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x109C3F: next_city (system.c:175)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x109C9C: next_city (system.c:178)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+--152975-- REDIR: 0x4a496d0 (libc.so.6:free) redirected to 0x483c9d0 (free)
+==152975== 
+==152975== HEAP SUMMARY:
+==152975==     in use at exit: 13,720 bytes in 127 blocks
+==152975==   total heap usage: 216 allocs, 89 frees, 18,880 bytes allocated
+==152975== 
+==152975== Searching for pointers to 127 not-freed blocks
+==152975== Checked 81,504 bytes
+==152975== 
+==152975== 16 bytes in 1 blocks are still reachable in loss record 1 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A7DF: init_array (array.c:6)
+==152975==    by 0x109A46: not_visited_cities (system.c:118)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 72 bytes in 1 blocks are still reachable in loss record 2 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10965E: malloc_system (system.c:14)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 80 bytes in 1 blocks are still reachable in loss record 3 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109609: initialize_cities_list (initialize.c:79)
+==152975==    by 0x109913: new_system (system.c:77)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 80 bytes in 1 blocks are still reachable in loss record 4 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10950A: initialize_paths (initialize.c:54)
+==152975==    by 0x10994E: new_system (system.c:80)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 80 bytes in 1 blocks are still reachable in loss record 5 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 80 bytes in 1 blocks are definitely lost in loss record 6 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109673: malloc_system (system.c:17)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 128 bytes in 1 blocks are still reachable in loss record 7 of 21
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 160 bytes in 1 blocks are still reachable in loss record 8 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x1092C9: initialize_distances (initialize.c:12)
+==152975==    by 0x109925: new_system (system.c:78)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 160 bytes in 1 blocks are still reachable in loss record 9 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10943E: initialize_pheromones (initialize.c:37)
+==152975==    by 0x109937: new_system (system.c:79)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 256 bytes in 1 blocks are still reachable in loss record 10 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109BF0: next_city (system.c:170)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 800 bytes in 10 blocks are still reachable in loss record 11 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10953E: initialize_paths (initialize.c:57)
+==152975==    by 0x10994E: new_system (system.c:80)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 800 bytes in 10 blocks are indirectly lost in loss record 12 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x1096CA: malloc_system (system.c:26)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 880 (80 direct, 800 indirect) bytes in 1 blocks are definitely lost in loss record 13 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10968F: malloc_system (system.c:21)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 896 bytes in 7 blocks are indirectly lost in loss record 14 of 21
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109B14: available_next_cities (system.c:142)
+==152975==    by 0x109BD7: next_city (system.c:168)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 1,008 (112 direct, 896 indirect) bytes in 7 blocks are definitely lost in loss record 15 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A7DF: init_array (array.c:6)
+==152975==    by 0x109AC8: available_next_cities (system.c:136)
+==152975==    by 0x109BD7: next_city (system.c:168)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 1,600 bytes in 20 blocks are still reachable in loss record 16 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x1092FD: initialize_distances (initialize.c:15)
+==152975==    by 0x109925: new_system (system.c:78)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 1,600 bytes in 20 blocks are indirectly lost in loss record 17 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109741: malloc_system (system.c:34)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 1,760 (160 direct, 1,600 indirect) bytes in 1 blocks are definitely lost in loss record 18 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x1096EA: malloc_system (system.c:30)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 3,200 bytes in 20 blocks are still reachable in loss record 19 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109472: initialize_pheromones (initialize.c:40)
+==152975==    by 0x109937: new_system (system.c:79)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 3,200 bytes in 20 blocks are indirectly lost in loss record 20 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10976B: malloc_system (system.c:35)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 3,360 (160 direct, 3,200 indirect) bytes in 1 blocks are definitely lost in loss record 21 of 21
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109706: malloc_system (system.c:31)
+==152975==    by 0x1098A9: new_system (system.c:65)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== LEAK SUMMARY:
+==152975==    definitely lost: 592 bytes in 11 blocks
+==152975==    indirectly lost: 6,496 bytes in 57 blocks
+==152975==      possibly lost: 0 bytes in 0 blocks
+==152975==    still reachable: 6,632 bytes in 59 blocks
+==152975==         suppressed: 0 bytes in 0 blocks
+==152975== 
+==152975== ERROR SUMMARY: 378 errors from 13 contexts (suppressed: 0 from 0)
+==152975== 
+==152975== 20 errors in context 1 of 13:
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A266EE: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 
+==152975== 20 errors in context 2 of 13:
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A27228: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 
+==152975== 20 errors in context 3 of 13:
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A0A6AD: _itoa_word (_itoa.c:179)
+==152975==    by 0x4A26574: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 
+==152975== 20 errors in context 4 of 13:
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x4A0A69B: _itoa_word (_itoa.c:179)
+==152975==    by 0x4A26574: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 
+==152975== 20 errors in context 5 of 13:
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x4A26958: __vfprintf_internal (vfprintf-internal.c:1687)
+==152975==    by 0x4A10D3E: printf (printf.c:33)
+==152975==    by 0x10A2F6: print_int_array (utils.c:36)
+==152975==    by 0x10A4FE: print_system (utils.c:76)
+==152975==    by 0x10A6F0: main (main.c:18)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x109972: new_system (system.c:85)
+==152975==    by 0x10A6AD: main (main.c:10)
+==152975== 
+==152975== 
+==152975== 91 errors in context 6 of 13:
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x109C9C: next_city (system.c:178)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 
+==152975== 91 errors in context 7 of 13:
+==152975== Use of uninitialised value of size 8
+==152975==    at 0x109C3F: next_city (system.c:175)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== 
+==152975== 91 errors in context 8 of 13:
+==152975== Conditional jump or move depends on uninitialised value(s)
+==152975==    at 0x109AEF: available_next_cities (system.c:140)
+==152975==    by 0x109BD7: next_city (system.c:168)
+==152975==    by 0x10A722: main (main.c:29)
+==152975==  Uninitialised value was created by a heap allocation
+==152975==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==152975==    by 0x10A872: insert_array (array.c:21)
+==152975==    by 0x109A95: not_visited_cities (system.c:125)
+==152975==    by 0x109BC2: next_city (system.c:167)
+==152975==    by 0x10A722: main (main.c:29)
+==152975== 
+==152975== ERROR SUMMARY: 378 errors from 13 contexts (suppressed: 0 from 0)

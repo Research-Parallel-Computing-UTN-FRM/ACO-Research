@@ -15,13 +15,12 @@ int **initialize_distances(int size)
         distances[i] = malloc(sizeof(int) * size);
     }
 
-    srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
             // Generate a symmetric matrix
-            distances[i][j] = random_int(500);
+            distances[i][j] = 10 + random_int(90);
             distances[j][i] = distances[i][j];
         }
     }
@@ -58,7 +57,6 @@ int **initialize_paths(int rows, int columns)
     }
 
     // Set an initial node for every ant
-    srand(time(NULL)); // Initialization, should only be called once.
     for (int i = 0; i < rows; i++)
     {
         int r = random_int(columns - 1);

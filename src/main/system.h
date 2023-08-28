@@ -34,7 +34,7 @@ int next_city(ant_system *s, int ant_number, int iter);
 
 void move_to_city(ant_system *s, int ant, int iter, int city);
 
-void best_solution(ant_system *s);
+void best_solution(ant_system *s, int *best_sols, int iter);
 
 void update_pheromones(ant_system *s);
 

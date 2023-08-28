@@ -115,15 +115,15 @@ int random_from_discrete_distribution(double *probabilities, int size)
 
     rand = random_zero_one();
 
-    //printf("rand %f \n", rand);
-    
+    // printf("rand %f \n", rand);
+
     for (int i = 0; i < size; i++)
     {
         cumulative_probability += probabilities[i];
-        //printf("cumulative_probability %f \n", cumulative_probability);
+        // printf("cumulative_probability %f \n", cumulative_probability);
         if (rand <= cumulative_probability)
         {
-            //printf("returning %d \n", i);
+            // printf("returning %d \n", i);
             return i;
         }
     }
